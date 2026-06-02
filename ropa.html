@@ -101,67 +101,146 @@
 <div class="copy text-center p-2">
     © 2026 Reloop
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', ProcesarDatos);
+let productosOriginales = [];
+let paginaActual = 1;
+const productosPorPagina = 6;
 
-    async function ProcesarDatos() {
-        let ropa = await ObtenerDatos();
-        if (!ropa) return;
+document.addEventListener('DOMContentLoaded', async () => {
 
-        console.log(ropa);
-        PintarDatos(ropa);
+    productosOriginales = await ObtenerDatos();
+
+    document.querySelectorAll('input[type="checkbox"]')
+        .forEach(c => c.addEventListener('change', AplicarFiltros));
+
+    document.getElementById('ordenar')
+        .addEventListener('change', AplicarFiltros);
+
+    AplicarFiltros();
+});
+
+async function ObtenerDatos() {
+    try {
+        const respuesta = await fetch('./js/ropa.json');
+        return await respuesta.json();
+    } catch(error){
+        console.error(error);
+        return [];
+    }
+}
+
+function AplicarFiltros(){
+
+    const materiales = [...document.querySelectorAll('input[type="checkbox"]:checked')]
+        .map(c => c.value);
+
+    let resultado = [...productosOriginales];
+
+    if(materiales.length > 0){
+        resultado = resultado.filter(item =>
+            materiales.some(material =>
+                item.Material.toLowerCase().includes(material.toLowerCase())
+            )
+        );
     }
 
-    function PintarDatos(ropa) {
-        let template = '';
+    const orden = document.getElementById('ordenar').value;
 
-        ropa.forEach(item => {
-            template += `<div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
-                <article class="d-flex w-100 flex-column h-100">
-                    <div class="product-card w-100 d-flex flex-column h-100">
-                        
-                        <a href="producto.html?id=${item.Id || item.id}&tipo=ropa" class="text-decoration-none">
-                            <div class="card-box mb-3">
-                                <img src="img/${item.Imagen}" class="img-fluid" alt="${item.Nombre}">
-                            </div>
-                        </a>
+    if(orden === 'asc'){
+        resultado.sort((a,b)=>a.Precio-b.Precio);
+    }
 
-                        <div class="p-2 d-flex flex-column flex-grow-1">
-                            <p class="price">
-                                <span class="new">$${item.Precio}</span>
-                            </p>
-                            <h3 class="h5 mb-2">${item.Nombre}</h3>
-                            <p class="text-muted small mb-2">${item.Material}</p>
-                            <p class="card-text text-secondary mb-3">${item.Descripcion}</p>
-                            <button class="btn btn-add w-100 mt-auto">
-                                <i class="fa fa-cart-plus"></i> Agregar
-                            </button>
+    if(orden === 'desc'){
+        resultado.sort((a,b)=>b.Precio-a.Precio);
+    }
+
+    PintarDatos(resultado);
+}
+
+function PintarDatos(productos){
+
+    const inicio = (paginaActual - 1) * productosPorPagina;
+    const fin = inicio + productosPorPagina;
+
+    const productosPagina = productos.slice(inicio, fin);
+
+    let template = '';
+
+    productosPagina.forEach(item => {
+
+        template += `
+        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+            <article class="d-flex w-100 flex-column h-100">
+                <div class="product-card w-100 d-flex flex-column h-100">
+
+                    <a href="producto.html?id=${item.Id}&tipo=ropa" class="text-decoration-none">
+                        <div class="card-box mb-3">
+                            <img src="img/${item.Imagen}" class="img-fluid">
                         </div>
+                    </a>
+
+                    <div class="p-2 d-flex flex-column flex-grow-1">
+                        <p class="price">
+                            <span class="new">$${item.Precio}</span>
+                        </p>
+
+                        <h3 class="h5 mb-2">${item.Nombre}</h3>
+
+                        <p class="text-muted small mb-2">
+                            ${item.Material}
+                        </p>
+
+                        <p class="card-text text-secondary mb-3">
+                            ${item.Descripcion}
+                        </p>
+
+                        <button class="btn btn-add w-100 mt-auto">
+                            <i class="fa fa-cart-plus"></i> Agregar
+                        </button>
                     </div>
-                </article>
-            </div>`;
-        });
 
-        document.getElementById('contenedor-ropa').innerHTML = template;
-        document.getElementById('resultados-text').textContent = `resultados para "${ropa.length} prendas"`;
+                </div>
+            </article>
+        </div>
+        `;
+    });
+
+    document.getElementById('contenedor-ropa').innerHTML = template;
+
+    document.getElementById('resultados-text').textContent =
+        `${productos.length} prendas encontradas`;
+
+    CrearPaginacion(productos.length);
+}
+
+function CrearPaginacion(total){
+
+    const totalPaginas =
+        Math.ceil(total / productosPorPagina);
+
+    let html = '';
+
+    for(let i=1;i<=totalPaginas;i++){
+
+        html += `
+        <button
+            class="btn btn-light m-1"
+            onclick="CambiarPagina(${i})">
+            ${i}
+        </button>
+        `;
     }
 
-    async function ObtenerDatos() {
-        try {
-            const respuesta = await fetch('./js/ropa.json');
-            const datos = await respuesta.json();
-            return datos;
-        } catch (error) {
-            console.error('Error al obtener los datos:', error);
-            alert('Error al obtener los datos de ropa. Revisa la consola.');
-        }
-    }
+    document.getElementById('paginacion').innerHTML = html;
+}
+
+function CambiarPagina(numero){
+
+    paginaActual = numero;
+    AplicarFiltros();
+}
 </script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="./js/carrito.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./js/carrito.js"></script>
 </body>
 </html>
