@@ -28,5 +28,36 @@
     "Precio": 390,
     "Precio_Anterior": 600,
     "Imagen": "FaldaDenim.webp"
+  },
+  {
+    "Id": 14,
+    "Nombre": "Portatermos de Mezclilla",
+    "Material": "Mezclilla reciclada",
+    "Porcentaje": "30% OFF",
+    "Descripcion": "Portatermos tipo bandolera hecho a mano con retazos de mezclilla reciclada.",
+    "Precio": 280,
+    "Precio_Anterior": 400,
+    "Imagen": "portatermo.webp"
+  },
+  {
+    "Id": 15,
+    "Nombre": "Gorra Denim",
+    "Material": "Mezclilla reciclada",
+    "Porcentaje": "25% OFF",
+    "Descripcion": "Gorra tipo béisbol confeccionada con retazos de mezclilla reciclada, decorada con parches y detalles deshilachados.",
+    "Precio": 250,
+    "Precio_Anterior": 350,
+    "Imagen": "gorra.webp"
+  },
+  {
+    "Id": 16,
+    "Nombre": "Funda de mezclilla para encendedor",
+    "Material": "Mezclilla reciclada",
+    "Porcentaje": "20% OFF",
+    "Descripcion": "Funda pequeña y funcional para encendedor, hecha a mano con retazos de mezclilla reciclada, decorada con parches y detalles deshilachados.",
+    "Precio": 80,
+    "Precio_Anterior": 100,
+    "Imagen": "fundaencend.webp"
   }
+
 ]

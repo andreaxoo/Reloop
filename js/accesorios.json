@@ -6,7 +6,6 @@
     "Material": "Mezclilla reciclada",
     "Descripcion": "Aretes largos e innovadores formados por eslabones gruesos, hechos completamente a mano con recortes de jeans.",
     "Precio": 150,
-    "Precio_Anterior": 350,
     "Imagen": "aretes.webp"
   },
   {
@@ -15,8 +14,7 @@
     "Categoria": "Accesorios",
     "Material": "Mezclilla y herrajes metálicos",
     "Descripcion": "Bolso en forma de corazón con olanes, decorado con cadenas, seguros y parches. Estilo grunge y sostenible.",
-    "Precio": 200,
-    "Precio_Anterior": 450,
+    "Precio": 350,
     "Imagen": "bolsacora.webp"
   },
   {
@@ -26,7 +24,6 @@
     "Material": "Jeans reciclados",
     "Descripcion": "Corbatas únicas elaboradas a partir de pantalones de mezclilla, con detalles desgastados, remaches y etiquetas originales.",
     "Precio": 300,
-    "Precio_Anterior": 500,
     "Imagen": "corbatamezc.webp"
   },
   {
@@ -35,8 +32,7 @@
     "Categoria": "Accesorios",
     "Material": "Tela de lona y seda",
     "Descripcion": "Bolso tipo tote en color negro, estructurado, que utiliza una corbata vintage estampada como asa y elemento decorativo.",
-    "Precio": 150,
-    "Precio_Anterior": 350,
+    "Precio": 250,
     "Imagen": "bolsacorb.webp"
   },
   {
@@ -45,8 +41,7 @@
     "Categoria": "Accesorios",
     "Material": "Mezclilla reciclada",
     "Descripcion": "Bolsas de mano en distintos tonos de mezclilla con un parche frontal en forma de llamas de fuego.",
-    "Precio": 150,
-    "Precio_Anterior": 350,
+    "Precio": 280,
     "Imagen": "bolsaflama.webp"
   },
   {
@@ -55,8 +50,43 @@
     "Categoria": "Ropa",
     "Material": "Mezclilla reciclada",
     "Descripcion": "Cinturón tipo corsé hecho de retazos de jeans con cordones frontales ajustables y tirantes con broches tipo liguero.",
-    "Precio": 150,
-    "Precio_Anterior": 350,
+    "Precio": 250,
     "Imagen": "corset.webp"
+  },
+  {
+    "Id": 7,
+    "Nombre": "Bolsa denim",
+    "Categoria": "Accesorios",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Bolsa de mano confeccionada con retazos de mezclilla reciclada, decorada con parches y detalles deshilachados.",
+    "Precio": 350,
+    "Imagen": "bolsadenim.webp"
+  },
+  {
+    "Id": 8,
+    "Nombre": "Estuchera denim",
+    "Categoria": "Accesorios",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Estuche rectangular hecho a mano con retazos de mezclilla reciclada, decorado con parches",
+    "Precio": 220,
+    "Imagen": "estuchera.webp"
+  },
+  {
+    "Id": 9,
+    "Nombre": "Esclava de Mezclilla",
+    "Categoria": "Accesorios",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Pulsera tipo esclava confeccionada con tiras de mezclilla reciclada, decorada con remaches metálicos y detalles con pintura acrílica.",
+    "Precio": 140,
+    "Imagen": "brazalete.webp"
+  },
+  {
+    "Id": 10,
+    "Nombre": "Collar de corbata",
+    "Categoria": "Accesorios",
+    "Material": "Corbata recicladas",
+    "Descripcion": "Collar tipo gargantilla hecho completamente con corbatas recicladas, con un diseño de capas superpuestas y detalles.", 
+    "Precio": 200,
+    "Imagen": "collarcorb.webp"
   }
 ]
