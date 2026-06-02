@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 11,
+    "Nombre": "Top Corsé Asimétrico 'Industrial Denim'",
+    "Material": "Mezclilla y herrajes metálicos",
+    "Porcentaje": "40% OFF",
+    "Descripcion": "Top estructurado tipo halter confeccionado con paneles de mezclilla clara recuperada.",
+    "Precio": 290,
+    "Precio_Anterior": 490,
+    "Imagen": "TopDenim.webp"
+  },
+  {
+    "Id": 12,
+    "Nombre": "Corbata Reloop 'Lace & Denim'",
+    "Material": "Mezclilla recuperada y encaje",
+    "Porcentaje": "50% OFF",
+    "Descripcion": "Accesorio experimental que fusiona retazos de mezclilla deshilachada con detalles románticos de encaje vintage.",
+    "Precio": 125,
+    "Precio_Anterior": 250,
+    "Imagen": "Corbata.webp"
+  },
+  {
+    "Id": 13,
+    "Nombre": "Falda Grunge",
+    "Material": "Mezclilla 100% algodón",
+    "Porcentaje": "35% OFF",
+    "Descripcion": "Minifalda de diseño experimental deconstruido, confeccionada de forma artesanal mediante capas superpuestas de pretinas de pantalones recuperados.",
+    "Precio": 390,
+    "Precio_Anterior": 600,
+    "Imagen": "FaldaDenim.webp"
+  }
+]
