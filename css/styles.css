@@ -125,13 +125,20 @@ footer {
     object-fit: cover;
 }
 
-.price {
-    margin: 5px 0;
+.price .new {
     color: #000000;
+    font-weight: 700;
+    font-size: 1.3rem;
 }
 
-.price .new {
-    color: rgb(5, 5, 5);
+.price .old {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 8px;
+}
+
+.price-discount {
+    color: #dc3545 !important;
     font-weight: bold;
 }
 
