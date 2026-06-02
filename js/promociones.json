@@ -12,7 +12,7 @@
   {
     "Id": 12,
     "Nombre": "Corbata Reloop 'Lace & Denim'",
-    "Material": "Mezclilla recuperada y encaje",
+    "Material": "Mezclilla y encaje",
     "Porcentaje": "50% OFF",
     "Descripcion": "Accesorio experimental que fusiona retazos de mezclilla deshilachada con detalles románticos de encaje vintage.",
     "Precio": 125,
@@ -22,7 +22,7 @@
   {
     "Id": 13,
     "Nombre": "Falda Grunge",
-    "Material": "Mezclilla 100% algodón",
+    "Material": "Mezclilla y algodón",
     "Porcentaje": "35% OFF",
     "Descripcion": "Minifalda de diseño experimental deconstruido, confeccionada de forma artesanal mediante capas superpuestas de pretinas de pantalones recuperados.",
     "Precio": 390,
@@ -32,7 +32,7 @@
   {
     "Id": 14,
     "Nombre": "Portatermos de Mezclilla",
-    "Material": "Mezclilla reciclada",
+    "Material": "Mezclilla ",
     "Porcentaje": "30% OFF",
     "Descripcion": "Portatermos tipo bandolera hecho a mano con retazos de mezclilla reciclada.",
     "Precio": 280,
@@ -42,7 +42,7 @@
   {
     "Id": 15,
     "Nombre": "Gorra Denim",
-    "Material": "Mezclilla reciclada",
+    "Material": "Mezclilla",
     "Porcentaje": "25% OFF",
     "Descripcion": "Gorra tipo béisbol confeccionada con retazos de mezclilla reciclada, decorada con parches y detalles deshilachados.",
     "Precio": 250,
@@ -52,12 +52,21 @@
   {
     "Id": 16,
     "Nombre": "Funda de mezclilla para encendedor",
-    "Material": "Mezclilla reciclada",
+    "Material": "Mezclilla",
     "Porcentaje": "20% OFF",
     "Descripcion": "Funda pequeña y funcional para encendedor, hecha a mano con retazos de mezclilla reciclada, decorada con parches y detalles deshilachados.",
     "Precio": 80,
     "Precio_Anterior": 100,
     "Imagen": "fundaencend.webp"
+  },
+  {
+    "Id": 17,
+    "Nombre": "Porta celular de corbata",
+    "Material": "Corbata",
+    "Porcentaje": "30% OFF",
+    "Descripcion": "Porta celular hecho a mano con corbata reciclada, con un diseño de capas superpuestas",
+    "Precio": 140,
+    "Precio_Anterior": 200,
+    "Imagen": "portacel.webp"  
   }
-
 ]

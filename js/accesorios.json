@@ -89,4 +89,14 @@
     "Precio": 200,
     "Imagen": "collarcorb.webp"
   }
+  ,
+  {
+    "Id": 11,
+    "Nombre": "Pocket Bag de Mezclilla",
+    "Categoria": "Accesorios",  
+    "Material": "Mezclilla",
+    "Descripcion": "Bolso tipo bandolera hecho a mano con bolsos de pantalon de mezclilla reciclada, decorado con parches y detalles deshilachados.",
+    "Precio": 280,
+    "Imagen": "pocketbag.webp"
+  }
 ]

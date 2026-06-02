@@ -93,10 +93,11 @@
             <h5>Filtrar por:</h5>
 
             <p class="mt-3"><strong>Material</strong></p>
-            <div><input type="checkbox" value="Mezclilla"> Mezclilla </div>
-            <div><input type="checkbox" value="Algodón"> Algodón </div>
-            <div><input type="checkbox" value="Popelina"> Popelina </div>
-            <div><input type="checkbox" value="Varios"> Varios </div>
+                <div><input type="checkbox" value="Mezclilla"> Mezclilla</div>
+                <div><input type="checkbox" value="Herrajes"> Herrajes metálicos</div>
+                <div><input type="checkbox" value="Encaje"> Encaje</div>
+                <div><input type="checkbox" value="Algodón"> Algodón</div>
+                <div><input type="checkbox" value="Corbata"> Corbata</div>
         </aside>
 
         <main class="col-lg-9">
@@ -142,182 +143,194 @@
     © 2026 Reloop
 </div>
 
-    <script>
+<script>
 
-    let promocionesOriginal = [];
-    let paginaActual = 1;
-    const productosPorPagina = 6;
+let promocionesOriginal = [];
+let promocionesFiltradas = [];
+let paginaActual = 1;
+const productosPorPagina = 6;
 
-    document.addEventListener('DOMContentLoaded', ProcesarDatos);
+document.addEventListener('DOMContentLoaded', ProcesarDatos);
 
-    async function ProcesarDatos() {
+async function ProcesarDatos() {
 
-        promocionesOriginal = await ObtenerDatos();
+    promocionesOriginal = await ObtenerDatos();
 
-        if (!promocionesOriginal) return;
+    if (!promocionesOriginal) return;
 
-        AplicarFiltros();
+    AplicarFiltros();
 
-        document.querySelectorAll('aside input[type="checkbox"]')
-            .forEach(check =>
-                check.addEventListener('change', AplicarFiltros)
-            );
+    document.querySelectorAll('aside input[type="checkbox"]')
+        .forEach(check =>
+            check.addEventListener('change', () => {
+                paginaActual = 1;
+                AplicarFiltros();
+            })
+        );
 
-        document.getElementById('ordenar')
-            .addEventListener('change', AplicarFiltros);
+    document.getElementById('ordenar')
+        .addEventListener('change', () => {
+            paginaActual = 1;
+            AplicarFiltros();
+        });
+}
+
+function AplicarFiltros() {
+
+    let productos = [...promocionesOriginal];
+
+    const materialesSeleccionados =
+        [...document.querySelectorAll('aside input[type="checkbox"]:checked')]
+        .map(c => c.value);
+
+    if(materialesSeleccionados.length > 0){
+
+        productos = productos.filter(p =>
+            materialesSeleccionados.some(mat =>
+                p.Material.toLowerCase()
+                .includes(mat.toLowerCase())
+            )
+        );
     }
 
-    function AplicarFiltros() {
+    const orden = document.getElementById('ordenar').value;
 
-        let productos = [...promocionesOriginal];
-
-        const materialesSeleccionados =
-            Array.from(
-                document.querySelectorAll(
-                    'aside input[type="checkbox"]:checked'
-                )
-            ).map(c => c.parentElement.textContent.trim());
-
-        if (materialesSeleccionados.length > 0) {
-
-            productos = productos.filter(p =>
-                materialesSeleccionados.some(mat =>
-                    p.Material.toLowerCase()
-                    .includes(mat.toLowerCase())
-                )
-            );
-        }
-
-        const orden = document.getElementById('ordenar').value;
-
-        if (orden === 'asc') {
-            productos.sort((a,b)=>a.Precio-b.Precio);
-        }
-
-        if (orden === 'desc') {
-            productos.sort((a,b)=>b.Precio-a.Precio);
-        }
-
-        if (orden === 'descuento') {
-
-            productos.sort((a,b)=>{
-
-                let da = parseInt(a.Porcentaje);
-                let db = parseInt(b.Porcentaje);
-
-                return db-da;
-            });
-        }
-
-        PintarDatos(productos);
+    if (orden === 'asc') {
+        productos.sort((a,b) => a.Precio - b.Precio);
     }
 
-    function PintarDatos(productos){
+    if (orden === 'desc') {
+        productos.sort((a,b) => b.Precio - a.Precio);
+    }
 
-        const inicio = (paginaActual - 1) * productosPorPagina;
-        const fin = inicio + productosPorPagina;
+    if (orden === 'descuento') {
 
-        const productosPagina = productos.slice(inicio, fin);
+        productos.sort((a,b) => {
 
-        let template = '';
+            const da = parseInt(a.Porcentaje);
+            const db = parseInt(b.Porcentaje);
 
-        productosPagina.forEach(item => {
+            return db - da;
+        });
+    }
 
-            template += `
-            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
-                <article class="d-flex w-100 flex-column h-100">
-                    <div class="product-card w-100 d-flex flex-column h-100 position-relative">
+    promocionesFiltradas = productos;
 
-                        <span class="badge-promo">${item.Porcentaje}</span>
+    PintarDatos(productos);
+}
 
-                        <a href="producto.html?id=${item.Id}&tipo=promociones" class="text-decoration-none">
-                            <div class="card-box mb-3">
-                                <img src="img/${item.Imagen}" class="img-fluid" alt="${item.Nombre}">
-                            </div>
-                        </a>
+function PintarDatos(productos){
 
-                        <div class="p-2 d-flex flex-column flex-grow-1">
+    const inicio = (paginaActual - 1) * productosPorPagina;
+    const fin = inicio + productosPorPagina;
 
-                            <p class="price">
-                               <span class="new price-discount">$${item.Precio}</span>
-                                <span class="old">$${item.Precio_Anterior}</span>
-                            </p>
+    const productosPagina = productos.slice(inicio, fin);
 
-                            <h3 class="h5 mb-2">${item.Nombre}</h3>
+    let template = '';
 
-                            <p class="text-muted small mb-2">
-                                ${item.Material}
-                            </p>
+    productosPagina.forEach(item => {
 
-                            <p class="card-text text-secondary mb-3">
-                                ${item.Descripcion}
-                            </p>
+        template += `
+        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+            <article class="d-flex w-100 flex-column h-100">
+                <div class="product-card w-100 d-flex flex-column h-100 position-relative">
 
-                            <button class="btn btn-add w-100 mt-auto">
-                                <i class="fa fa-fire"></i> ¡Aprovechar Oferta!
-                            </button>
+                    <span class="badge-promo">${item.Porcentaje}</span>
 
+                    <a href="producto.html?id=${item.Id}&tipo=promociones" class="text-decoration-none">
+                        <div class="card-box mb-3">
+                            <img src="img/${item.Imagen}" class="img-fluid" alt="${item.Nombre}">
                         </div>
+                    </a>
+
+                    <div class="p-2 d-flex flex-column flex-grow-1">
+
+                        <p class="price">
+                            <span class="new price-discount">
+                                $${item.Precio}
+                            </span>
+
+                            <span class="old text-decoration-line-through text-muted ms-2">
+                                $${item.Precio_Anterior}
+                            </span>
+                        </p>
+
+                        <h3 class="h5 mb-2">${item.Nombre}</h3>
+
+                        <p class="text-muted small mb-2">
+                            ${item.Material}
+                        </p>
+
+                        <p class="card-text text-secondary mb-3">
+                            ${item.Descripcion}
+                        </p>
+
+                        <button class="btn btn-add w-100 mt-auto">
+                            <i class="fa fa-fire"></i>
+                            ¡Aprovechar Oferta!
+                        </button>
 
                     </div>
-                </article>
-            </div>
-            `;
-        });
 
-        document.getElementById('contenedor-promociones').innerHTML = template;
+                </div>
+            </article>
+        </div>
+        `;
+    });
 
-        document.getElementById('resultados-text').textContent =
-            `${productos.length} ofertas encontradas`;
+    document.getElementById('contenedor-promociones').innerHTML = template;
 
-        CrearPaginacion(productos.length);
+    document.getElementById('resultados-text').textContent =
+        `${productos.length} ofertas encontradas`;
+
+    CrearPaginacion(productos.length);
+}
+
+function CrearPaginacion(total){
+
+    const totalPaginas =
+        Math.ceil(total / productosPorPagina);
+
+    let html = '';
+
+    for(let i = 1; i <= totalPaginas; i++){
+
+        html += `
+        <button
+            class="btn ${i === paginaActual ? 'btn-dark' : 'btn-light'} m-1"
+            onclick="CambiarPagina(${i})">
+            ${i}
+        </button>
+        `;
     }
 
-    function CrearPaginacion(total){
+    document.getElementById('paginacion').innerHTML = html;
+}
 
-        const totalPaginas =
-            Math.ceil(total / productosPorPagina);
+function CambiarPagina(numero){
 
-        let html = '';
+    paginaActual = numero;
 
-        for(let i=1;i<=totalPaginas;i++){
+    PintarDatos(promocionesFiltradas);
+}
 
-            html += `
-            <button
-                class="btn btn-light m-1"
-                onclick="CambiarPagina(${i})">
-                ${i}
-            </button>
-            `;
-        }
+async function ObtenerDatos() {
 
-        document.getElementById('paginacion').innerHTML = html;
+    try {
+
+        const respuesta =
+            await fetch('./js/promociones.json');
+
+        return await respuesta.json();
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert('Error al obtener promociones');
     }
+}
 
-    function CambiarPagina(numero){
-
-        paginaActual = numero;
-        AplicarFiltros();
-    }
-
-    async function ObtenerDatos() {
-
-        try {
-
-            const respuesta =
-                await fetch('./js/promociones.json');
-
-            return await respuesta.json();
-
-        } catch(error) {
-
-            console.error(error);
-
-            alert(
-                'Error al obtener promociones'
-            );
-        }
-    }
 </script>
 </body>
 </html>
