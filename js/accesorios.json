@@ -58,16 +58,5 @@
     "Precio": 150,
     "Precio_Anterior": 350,
     "Imagen": "corset.webp"
-  },
-  {
-    "Id": 12,
-    "Nombre": "Corbata Reloop 'Lace & Denim'",
-    "Material": "Mezclilla recuperada y encaje",
-    "Porcentaje": "50% OFF",
-    "Descripcion": "Accesorio experimental que fusiona retazos de mezclilla deshilachada con detalles románticos de encaje vintage.",
-    "Precio": 125,
-    "Precio_Anterior": 250,
-    "Imagen": "Corbata.webp"
   }
-
 ]
