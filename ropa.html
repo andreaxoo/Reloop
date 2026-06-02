@@ -119,10 +119,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function ObtenerDatos() {
     try {
-        const respuesta = await fetch('./js/ropa.json');
+
+        const respuesta = await fetch('./api/productos.php?categoria=Ropa');
+
         return await respuesta.json();
+
     } catch(error){
+
         console.error(error);
+
         return [];
     }
 }

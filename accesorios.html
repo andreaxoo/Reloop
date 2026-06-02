@@ -200,7 +200,7 @@ function AplicarFiltros(){
 
 async function ObtenerDatos() {
     try {
-        const respuesta = await fetch('./js/accesorios.json');
+        const respuesta = await fetch('./api/productos.php?categoria=Accesorios');
         const datos = await respuesta.json();
         return datos;
 
