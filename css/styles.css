@@ -127,17 +127,12 @@ footer {
 
 .price {
     margin: 5px 0;
+    color: #000000;
 }
 
 .price .new {
-    color: red;
+    color: rgb(5, 5, 5);
     font-weight: bold;
-}
-
-.price .old {
-    text-decoration: line-through;
-    color: gray;
-    margin-left: 10px;
 }
 
 .btn-add {
