@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Accesorios - Reloop</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light px-4">
+    <img src="logo.png" class="logo me-2">
+    <span class="brand-text">RE-LOOP</span>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link active" href="accesorios.html">Accesorios</a></li>
+            <li class="nav-item"><a class="nav-link" href="ropa.html">Ropa</a></li>
+        </ul>
+
+        <form class="d-flex me-3">
+            <input class="form-control me-2" type="search" placeholder="Buscar">
+        </form>
+
+        <div class="social-icons">
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-pinterest"></i>
+
+            <a href="carrito.html" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
+                <i class="fa-solid fa-basket-shopping fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contador-carrito">0</span>
+                </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="row">
+
+        <aside class="col-lg-3 mb-4">
+            <h5>Filtrar por:</h5>
+
+            <p class="mt-3"><strong>Material</strong></p>
+            <div><input type="checkbox"> Mezclilla </div>
+            <div><input type="checkbox"> Algodón </div>
+            <div><input type="checkbox"> Popelina </div>
+            <div><input type="checkbox"> Varios </div>
+
+        </aside>
+
+        <main class="col-lg-9">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p id="resultados-text">resultados para ""</p>
+
+                <select class="form-select w-auto">
+                    <option>Más popular</option>
+                    <option>Precio bajo</option>
+                    <option>Precio alto</option>
+                </select>
+            </div>
+
+            <div id="contenedor-accesorios" class="row gy-4 gy-xxl-5"></div>
+
+            <div class="text-center mt-4">
+                <button class="btn btn-light">1</button>
+                <button class="btn btn-light">2</button>
+                <button class="btn btn-light">3</button>
+            </div>
+
+        </main>
+
+    </div>
+</div>
+
+<footer class="py-5">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+
+        <div>
+            <img src="logo.png" class="footer-logo mb-2">
+            <p>¿Tienes alguna pregunta? ¡Contáctanos!</p>
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-pinterest"></i>
+        </div>
+
+        <div>
+            <h5>Recibir ofertas</h5>
+            <input class="form-control mb-2" placeholder="Tu correo">
+            <button class="btn btn-light">Suscribirse</button>
+        </div>
+
+    </div>
+</footer>
+
+<div class="copy text-center p-2">
+    © 2026 Reloop
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', ProcesarDatos);
+
+    async function ProcesarDatos() {
+        let accesorios = await ObtenerDatos();
+        if (!accesorios) return;
+
+        console.log(accesorios);
+        PintarDatos(accesorios);
+    }
+
+    function PintarDatos(accesorios) {
+        let template = '';
+
+        accesorios.forEach(item => {
+            template += `<div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+                <article class="d-flex w-100 flex-column h-100">
+                    <div class="product-card w-100 d-flex flex-column h-100">
+                        
+                        <a href="producto.html?id=${item.Id || item.id}&tipo=accesorios" class="text-decoration-none">
+                            <div class="card-box mb-3">
+                                <img src="img/${item.Imagen}" class="img-fluid" alt="${item.Nombre}">
+                            </div>
+                        </a>
+
+                        <div class="p-2 d-flex flex-column flex-grow-1">
+                            <p class="price">
+                                <span class="new">$${item.Precio}</span>
+                                <span class="old">$${item.Precio_Anterior}</span>
+                            </p>
+                            <h3 class="h5 mb-2">${item.Nombre}</h3>
+                            <p class="text-muted small mb-2">${item.Material}</p>
+                            <p class="card-text text-secondary mb-3">${item.Descripcion}</p>
+                            <button class="btn btn-add w-100 mt-auto">
+                                <i class="fa fa-cart-plus"></i> Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>`;
+        });
+
+        document.getElementById('contenedor-accesorios').innerHTML = template;
+        document.getElementById('resultados-text').textContent = `resultados para "${accesorios.length} accesorios"`;
+    }
+
+    async function ObtenerDatos() {
+        try {
+            const respuesta = await fetch('./js/accesorios.json');
+            const datos = await respuesta.json();
+            return datos;
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+            alert('Error al obtener los datos. Revisa la consola.');
+        }
+    }
+</script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="./js/carrito.js"></script>
+</body>
+</body>
+</html>

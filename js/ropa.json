@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "Nombre": "Falda de Popelina y Denim",
+    "Categoria": "Ropa",
+    "Material": "Popelina y Mezclilla",
+    "Descripcion": "Falda tableada de popelina a cuadros combinada de forma única con una pretina de mezclilla recuperada.",
+    "Precio": 250,
+    "Precio_Anterior": 450,
+    "Imagen": "faldaPopelina.webp"
+  },
+  {
+    "Id": 2,
+    "Nombre": "Hoodie Flores Upcycled",
+    "Categoria": "Ropa",
+    "Material": "Algodón y parches varios",
+    "Descripcion": "Sudadera gris oversize decorada a mano con coloridos parches florales texturizados en mangas y torso.",
+    "Precio": 400,
+    "Precio_Anterior": 650,
+    "Imagen": "hoodieFlores.webp"
+  },
+  {
+    "Id": 3,
+    "Nombre": "Jeans Corbatas Distressed",
+    "Categoria": "Ropa",
+    "Material": "Mezclilla y Seda/Poliéster",
+    "Descripcion": "Pantalón holgado de mezclilla reconstruido en los costados utilizando corbatas vintage de diversos estampados.",
+    "Precio": 380,
+    "Precio_Anterior": 600,
+    "Imagen": "jeansCorbatas.webp"
+  },
+  {
+    "Id": 4,
+    "Nombre": "Jeans Tricolor Reloop",
+    "Categoria": "Ropa",
+    "Material": "Mezclilla en tonos",
+    "Descripcion": "Jeans de corte recto armados asimétricamente con bloques de mezclilla en tonos azul claro, medio y oscuro.",
+    "Precio": 350,
+    "Precio_Anterior": 550,
+    "Imagen": "jeansTricolor.webp"
+  },
+  {
+    "Id": 5,
+    "Nombre": "Traje Mezclilla Patchwork",
+    "Categoria": "Ropa",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Conjunto vanguardista de dos piezas con diseño de bloques geométricos deshilachados y costuras expuestas.",
+    "Precio": 650,
+    "Precio_Anterior": 950,
+    "Imagen": "trajeMezclilla.webp"
+  },
+  {
+    "Id": 6,
+    "Nombre": "Vestido Corbatas Vintage",
+    "Categoria": "Ropa",
+    "Material": "Corbatas recicladas",
+    "Descripcion": "Espectacular vestido corto sin mangas confeccionado en su totalidad mediante la unión vertical de corbatas retro.",
+    "Precio": 500,
+    "Precio_Anterior": 800,
+    "Imagen": "vestidoCorbatas.webp"
+  },
+  {
+    "Id": 11,
+    "Nombre": "Top Corsé Asimétrico 'Industrial Denim'",
+    "Material": "Mezclilla y herrajes metálicos",
+    "Porcentaje": "40% OFF",
+    "Descripcion": "Top estructurado tipo halter confeccionado con paneles de mezclilla clara recuperada.",
+    "Precio": 290,
+    "Precio_Anterior": 490,
+    "Imagen": "TopDenim.webp"
+  },
+    {
+    "Id": 13,
+    "Nombre": "Falda Grunge",
+    "Material": "Mezclilla 100% algodón",
+    "Porcentaje": "35% OFF",
+    "Descripcion": "Minifalda de diseño experimental deconstruido, confeccionada de forma artesanal mediante capas superpuestas de pretinas de pantalones recuperados.",
+    "Precio": 390,
+    "Precio_Anterior": 600,
+    "Imagen": "FaldaDenim.webp"
+    }
+]

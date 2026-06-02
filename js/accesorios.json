@@ -1,0 +1,73 @@
+[
+  {
+    "Id": 1,
+    "Nombre": "Aretes de Eslabones Denim",
+    "Categoria": "Accesorios",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Aretes largos e innovadores formados por eslabones gruesos, hechos completamente a mano con recortes de jeans.",
+    "Precio": 150,
+    "Precio_Anterior": 350,
+    "Imagen": "aretes.webp"
+  },
+  {
+    "Id": 2,
+    "Nombre": "Bolso Corazón Rebelde",
+    "Categoria": "Accesorios",
+    "Material": "Mezclilla y herrajes metálicos",
+    "Descripcion": "Bolso en forma de corazón con olanes, decorado con cadenas, seguros y parches. Estilo grunge y sostenible.",
+    "Precio": 200,
+    "Precio_Anterior": 450,
+    "Imagen": "bolsacora.webp"
+  },
+  {
+    "Id": 3,
+    "Nombre": "Corbata Denim Distressed",
+    "Categoria": "Accesorios",
+    "Material": "Jeans reciclados",
+    "Descripcion": "Corbatas únicas elaboradas a partir de pantalones de mezclilla, con detalles desgastados, remaches y etiquetas originales.",
+    "Precio": 300,
+    "Precio_Anterior": 500,
+    "Imagen": "corbatamezc.webp"
+  },
+  {
+    "Id": 4,
+    "Nombre": "Tote Bag con Corbata Vintage",
+    "Categoria": "Accesorios",
+    "Material": "Tela de lona y seda",
+    "Descripcion": "Bolso tipo tote en color negro, estructurado, que utiliza una corbata vintage estampada como asa y elemento decorativo.",
+    "Precio": 150,
+    "Precio_Anterior": 350,
+    "Imagen": "bolsacorb.webp"
+  },
+  {
+    "Id": 5,
+    "Nombre": "Tote Bag Flamas Y2K",
+    "Categoria": "Accesorios",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Bolsas de mano en distintos tonos de mezclilla con un parche frontal en forma de llamas de fuego.",
+    "Precio": 150,
+    "Precio_Anterior": 350,
+    "Imagen": "bolsaflama.webp"
+  },
+  {
+    "Id": 6,
+    "Nombre": "Corsé Liguero Asimétrico",
+    "Categoria": "Ropa",
+    "Material": "Mezclilla reciclada",
+    "Descripcion": "Cinturón tipo corsé hecho de retazos de jeans con cordones frontales ajustables y tirantes con broches tipo liguero.",
+    "Precio": 150,
+    "Precio_Anterior": 350,
+    "Imagen": "corset.webp"
+  },
+  {
+    "Id": 12,
+    "Nombre": "Corbata Reloop 'Lace & Denim'",
+    "Material": "Mezclilla recuperada y encaje",
+    "Porcentaje": "50% OFF",
+    "Descripcion": "Accesorio experimental que fusiona retazos de mezclilla deshilachada con detalles románticos de encaje vintage.",
+    "Precio": 125,
+    "Precio_Anterior": 250,
+    "Imagen": "Corbata.webp"
+  }
+
+]
