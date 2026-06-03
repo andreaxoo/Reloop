@@ -21,10 +21,14 @@
         </ul>
     </div>
     <div class="social-icons">
-        <a href="mi-cuenta.html" class="btn btn-outline-success position-relative p-1" style="border: none;">
+        <a href="mi-cuenta.php" id="btnPerfil" class="btn btn-outline-success position-relative p-1" style="border: none;">
             <i class="fa-solid fa-user fs-5"></i>
-        </a>    
-        <a href="login.html" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
+        </a>
+        <span id="usuarioNav" class="ms-2 align-middle d-none"></span>
+        <button id="btnLogout" type="button" class="btn btn-outline-danger btn-sm ms-2 d-none">
+            Cerrar sesión
+        </button>
+        <a href="login.html" id="btnLogin" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
             <i class="fa-solid fa-right-to-bracket fs-5"></i>
         </a>
         <a href="carrito.html" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
@@ -61,7 +65,7 @@
                     <span>Total</span>
                     <span id="total-carrito" class="text-success">$0.00</span>
                 </div>
-                <a href="pago.html" class="btn btn-success">
+                <a id="btnFinalizar" href="checkout.html" class="btn btn-success">
                 Finalizar compra
                 </a>
                 <button class="btn btn-outline-danger w-100 btn-sm" onclick="VaciarCarrito()">Vaciar Carrito</button>
@@ -131,6 +135,66 @@
         localStorage.removeItem('carrito');
         RenderizarCarrito();
     }
+</script>
+<script>
+// Fallback navigation: ensure Finalizar compra always navigates to checkout
+document.addEventListener('DOMContentLoaded', function(){
+    const btn = document.getElementById('btnFinalizar');
+    if(btn){
+        btn.addEventListener('click', function(e){
+            // if some script prevented navigation, force it
+            if(!(e.ctrlKey || e.metaKey)){
+                window.location.href = 'checkout.html';
+            }
+        });
+    }
+});
+</script>
+<script>
+async function cargarUsuarioNav() {
+    const usuarioNav = document.getElementById("usuarioNav");
+    const btnLogout = document.getElementById("btnLogout");
+    const btnLogin = document.getElementById("btnLogin");
+
+    if (!usuarioNav || !btnLogout || !btnLogin) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch("api/obtenerUsuario.php");
+        const usuario = await respuesta.json();
+
+        if (usuario.success === false) {
+            usuarioNav.classList.add("d-none");
+            btnLogout.classList.add("d-none");
+            btnLogin.classList.remove("d-none");
+            return;
+        }
+
+        usuarioNav.textContent = usuario.nombre;
+        usuarioNav.classList.remove("d-none");
+        btnLogout.classList.remove("d-none");
+        btnLogin.classList.add("d-none");
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    cargarUsuarioNav();
+
+    const btnLogout = document.getElementById("btnLogout");
+    if (btnLogout) {
+        btnLogout.addEventListener("click", async function() {
+            const respuesta = await fetch("api/logout.php");
+            const datos = await respuesta.json();
+            if (datos.success) {
+                window.location = "index.html";
+            }
+        });
+    }
+});
 </script>
 </body>
 </html>

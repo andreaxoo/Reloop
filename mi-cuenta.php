@@ -33,6 +33,10 @@
                         Cliente Reloop
                     </p>
 
+                    <a href="index.html" class="btn btn-outline-primary mt-3">
+                        Página Principal
+                    </a>
+
                 </div>
 
             </div>
@@ -106,19 +110,7 @@
 
                         </thead>
 
-                        <tbody>
-
-                            <tr>
-                                <td>#1001</td>
-                                <td>02/06/2026</td>
-                                <td>$899</td>
-                                <td>
-                                    <span class="badge bg-success">
-                                        Pagado
-                                    </span>
-                                </td>
-                            </tr>
-
+                        <tbody id="tablaPedidos">
                         </tbody>
 
                     </table>
@@ -180,6 +172,57 @@ async function cargarUsuario()
 }
 
 cargarUsuario();
+
+async function cargarPedidos()
+{
+    const respuesta =
+        await fetch(
+            "api/obtenerPedidos.php"
+        );
+
+    const pedidos =
+        await respuesta.json();
+
+    let html = "";
+
+    if(pedidos.length === 0)
+    {
+        html = `
+        <tr>
+            <td colspan="4" class="text-center">
+                Aún no tienes pedidos.
+            </td>
+        </tr>`;
+    }
+    else
+    {
+        pedidos.forEach(pedido => {
+
+            let badge = "bg-warning";
+
+            if(pedido.estado_pago === "Pagado")
+            {
+                badge = "bg-success";
+            }
+
+            html += `
+            <tr>
+                <td>#${pedido.id_pedido}</td>
+                <td>${pedido.fecha_pedido}</td>
+                <td>$${pedido.total_pedido}</td>
+                <td>
+                    <span class="badge ${badge}">
+                        ${pedido.estado_pago}
+                    </span>
+                </td>
+            </tr>`;
+        });
+    }
+
+    document.getElementById("tablaPedidos").innerHTML = html;
+}
+
+cargarPedidos();
 
 document
 .getElementById("btnLogout")

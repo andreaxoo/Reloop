@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-include("conexion.php");
+include(__DIR__ . "/../conexion.php");
 
 $nombre = $_POST["nombre"];
 $apellidos = $_POST["apellidos"];

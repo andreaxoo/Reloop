@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 session_start();
 
-include("conexion.php");
+include(__DIR__ . "/../conexion.php");
 
 $correo = $_POST["correo"];
 $password = $_POST["password"];

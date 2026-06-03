@@ -46,10 +46,14 @@
             <input class="form-control me-2" type="search" placeholder="Buscar">
         </form>
         <div class="social-icons">
-            <a href="mi-cuenta.html" class="btn btn-outline-success position-relative p-1" style="border: none;">
+            <a href="mi-cuenta.php" id="btnPerfil" class="btn btn-outline-success position-relative p-1" style="border: none;">
                 <i class="fa-solid fa-user fs-5"></i>
-            </a>    
-            <a href="login.html" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
+            </a>
+            <span id="usuarioNav" class="ms-2 align-middle d-none"></span>
+            <button id="btnLogout" type="button" class="btn btn-outline-danger btn-sm ms-2 d-none">
+                Cerrar sesión
+            </button>
+            <a href="login.html" id="btnLogin" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
                 <i class="fa-solid fa-right-to-bracket fs-5"></i>
             </a>
             <a href="carrito.html" class="btn btn-outline-success position-relative p-1 ms-2" style="border: none;">
@@ -90,7 +94,7 @@
 <div class="copy text-center p-2 bg-dark text-white-50">© 2026 Reloop</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="./js/carrito.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', CargarDetalle);
 
@@ -167,10 +171,7 @@
     }
 
 </script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="./js/carrito.js"></script>
-            <script src="./js/carrito.js"></script>
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
                 <div id="toastCarrito" class="toast text-bg-success border-0" role="alert">
                     <div class="d-flex">
                         <div class="toast-body" id="toastMensaje">
@@ -183,7 +184,51 @@
                     </div>
                 </div>
             </div>
-</body>
-</html>
+<script>
+async function cargarUsuarioNav() {
+    const usuarioNav = document.getElementById("usuarioNav");
+    const btnLogout = document.getElementById("btnLogout");
+    const btnLogin = document.getElementById("btnLogin");
+
+    if (!usuarioNav || !btnLogout || !btnLogin) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch("api/obtenerUsuario.php");
+        const usuario = await respuesta.json();
+
+        if (usuario.success === false) {
+            usuarioNav.classList.add("d-none");
+            btnLogout.classList.add("d-none");
+            btnLogin.classList.remove("d-none");
+            return;
+        }
+
+        usuarioNav.textContent = usuario.nombre;
+        usuarioNav.classList.remove("d-none");
+        btnLogout.classList.remove("d-none");
+        btnLogin.classList.add("d-none");
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    cargarUsuarioNav();
+
+    const btnLogout = document.getElementById("btnLogout");
+    if (btnLogout) {
+        btnLogout.addEventListener("click", async function() {
+            const respuesta = await fetch("api/logout.php");
+            const datos = await respuesta.json();
+            if (datos.success) {
+                window.location = "index.html";
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>

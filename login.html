@@ -51,6 +51,12 @@
                         <a href="registro.html">Regístrate</a>
                     </div>
 
+                    <div class="text-center mt-3">
+                        <a href="index.html" class="btn btn-outline-primary">
+                            Página Principal
+                        </a>
+                    </div>
+
                 </div>
 
             </div>
@@ -71,31 +77,38 @@ async function(e)
 {
     e.preventDefault();
 
-    const formData =
-        new FormData(this);
+    try {
+        const formData =
+            new FormData(this);
 
-    const respuesta =
-        await fetch(
-            "api/login.php",
-            {
-                method:"POST",
-                body:formData
-            }
-        );
+        const respuesta =
+            await fetch(
+                "api/login.php",
+                {
+                    method:"POST",
+                    body:formData
+                }
+            );
 
-    const datos =
-        await respuesta.json();
+        const datos =
+            await respuesta.json();
 
-    if(datos.success)
-    {
-        window.location =
-            "mi-cuenta.php";
+        if(datos.success)
+        {
+            window.location =
+                "mi-cuenta.php";
+        }
+        else
+        {
+            alert(
+                "Correo o contraseña incorrectos"
+            );
+        }
     }
-    else
+    catch(error)
     {
-        alert(
-            "Correo o contraseña incorrectos"
-        );
+        alert('Error al conectar con el servidor.');
+        console.error(error);
     }
 });
 

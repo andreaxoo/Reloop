@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pago - Reloop</title>
+    <title>Checkout - Reloop</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 
     <style>
-
         body{
             background:#f8f8f8;
         }
@@ -61,19 +59,21 @@
             font-size:1.2rem;
         }
 
+        #paypal-button-container {
+            display: none;
+        }
+
+        #paypal-button-container.show {
+            display: block;
+        }
     </style>
 </head>
-
 <body>
-
-<script>
-    window.location.href = "checkout.html";
-</script>
 
 <div class="container py-5">
 
     <div class="titulo-pedido">
-        <h2 class="m-0">PEDIDO</h2>
+        <h2 class="m-0">CHECKOUT</h2>
     </div>
 
     <div class="bg-white p-4">
@@ -196,100 +196,63 @@
 </div>
 
 <script>
-
 let total = 0;
 
-document.addEventListener("DOMContentLoaded", ()=>{
+async function cargarUsuario() {
+    const respuesta = await fetch("api/obtenerUsuario.php");
+    const usuario = await respuesta.json();
 
-    const carrito =
-        JSON.parse(localStorage.getItem("carrito")) || [];
+    if (usuario.success === false) {
+        window.location = "login.html";
+        return;
+    }
 
-    const contenedor =
-        document.getElementById("productosResumen");
+    document.getElementById("nombre").value = usuario.nombre;
+    document.getElementById("apellido").value = usuario.apellidos;
+    document.getElementById("correo").value = usuario.correo;
+    document.getElementById("telefono").value = usuario.telefono;
+}
+
+function actualizarResumen() {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const contenedor = document.getElementById("productosResumen");
+
+    if (carrito.length === 0) {
+        contenedor.innerHTML = `<p class="text-muted">No hay productos en el carrito.</p>`;
+        total = 0;
+        document.getElementById("subtotal").textContent = "$0";
+        document.getElementById("totalPago").textContent = "$0";
+        return;
+    }
 
     let html = "";
+    total = 0;
 
-    carrito.forEach(item=>{
-
-        const subtotal =
-            item.precio * item.cantidad;
-
+    carrito.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
         total += subtotal;
 
         html += `
             <div class="producto-linea">
-                <span>
-                    ${item.nombre}
-                    x${item.cantidad}
-                </span>
-                <span>
-                    $${subtotal}
-                </span>
-            </div>
-        `;
+                <span>${item.nombre} x${item.cantidad}</span>
+                <span>$${subtotal.toFixed(2)}</span>
+            </div>`;
     });
 
     contenedor.innerHTML = html;
+    document.getElementById("subtotal").textContent = "$" + total.toFixed(2);
+    document.getElementById("totalPago").textContent = "$" + total.toFixed(2);
+}
 
-    document.getElementById("subtotal")
-        .textContent = "$" + total.toFixed(2);
+async function enviarPedido() {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const totalPago = total.toFixed(2);
 
-    document.getElementById("totalPago")
-        .textContent = "$" + total.toFixed(2);
-});
-
-</script>
-
-<script src="https://www.paypal.com/sdk/js?client-id=AUkSxXwBmbFjkq3EsfagBLAOcphPe2HNJmP1mG42c62-aF7hepQh3gZKhOM68-g31YMDjIIpr1hQTsVe&currency=MXN"></script>
-
-<script>
-
-paypal.Buttons({
-
-    createOrder(data, actions){
-
-        return actions.order.create({
-
-            purchase_units:[{
-
-                amount:{
-                    value: total.toFixed(2)
-                }
-
-            }]
-        });
-    },
-
-    onApprove(data, actions){
-
-        return actions.order.capture().then(function(){
-
-            localStorage.removeItem("carrito");
-
-            window.location.href =
-                "compra-exitosa.html";
-        });
-    }
-
-}).render('#paypal-button-container');
-
-</script>
-
-<script>
-
-document.getElementById("btnConfirmar")
-.addEventListener("click", async function(){
-
-    const carrito =
-        JSON.parse(localStorage.getItem("carrito")) || [];
-
-    const datosCliente = {
-
+    const cliente = {
         nombre: document.getElementById("nombre").value,
         apellido: document.getElementById("apellido").value,
         correo: document.getElementById("correo").value,
         telefono: document.getElementById("telefono").value,
-
         calle: document.getElementById("calle").value,
         colonia: document.getElementById("colonia").value,
         municipio: document.getElementById("municipio").value,
@@ -297,31 +260,99 @@ document.getElementById("btnConfirmar")
         cp: document.getElementById("cp").value
     };
 
-    const pedido = {
-        cliente: datosCliente,
-        carrito: carrito
-    };
+    const respuesta = await fetch("api/guardarPedido.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            carrito,
+            total: totalPago,
+            cliente
+        })
+    });
 
-    const respuesta = await fetch(
-        "./api/guardarPedido.php",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(pedido)
-        }
-    );
+    return await respuesta.json();
+}
 
-    const resultado =
-        await respuesta.json();
+function validarDatos() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const apellido = document.getElementById("apellido").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const calle = document.getElementById("calle").value.trim();
+    const colonia = document.getElementById("colonia").value.trim();
+    const municipio = document.getElementById("municipio").value.trim();
+    const estado = document.getElementById("estado").value;
+    const cp = document.getElementById("cp").value.trim();
 
-    console.log(resultado);
+    if (!nombre || !apellido || !telefono || !calle || !colonia || !municipio || estado === "Seleccionar estado" || !cp) {
+        alert("Por favor completa todos los campos de envío.");
+        return false;
+    }
 
-    alert("Datos enviados correctamente");
+    return true;
+}
 
+function confirmarPedido() {
+    if (!validarDatos()) {
+        return;
+    }
+    
+    // Mostrar botones de PayPal
+    const container = document.getElementById("paypal-button-container");
+    container.classList.add("show");
+    
+    // Scroll a los botones de PayPal
+    container.scrollIntoView({ behavior: "smooth", block: "center" });
+    
+    // Desactivar botón Confirmar para evitar clics duplicados
+    document.getElementById("btnConfirmar").disabled = true;
+    document.getElementById("btnConfirmar").textContent = "Procede con PayPal abajo →";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    cargarUsuario();
+    actualizarResumen();
+
+    document.getElementById("btnConfirmar")
+        .addEventListener("click", async function() {
+            await confirmarPedido();
+        });
 });
+</script>
 
+<script src="https://www.paypal.com/sdk/js?client-id=AUkSxXwBmbFjkq3EsfagBLAOcphPe2HNJmP1mG42c62-aF7hepQh3gZKhOM68-g31YMDjIIpr1hQTsVe&currency=MXN"></script>
+
+<script>
+paypal.Buttons({
+    createOrder(data, actions) {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: total.toFixed(2)
+                }
+            }]
+        });
+    },
+    onApprove(data, actions) {
+        return actions.order.capture().then(async function() {
+            const resultado = await enviarPedido();
+
+            if(resultado.success) {
+                localStorage.removeItem("carrito");
+                alert("Pago realizado correctamente");
+                window.location.href = "mi-cuenta.php";
+            } else {
+                console.error('guardarPedido error:', resultado);
+                let extra = '';
+                if(resultado.db_errors && Array.isArray(resultado.db_errors)){
+                    try{ extra = '\nSQL errors: ' + JSON.stringify(resultado.db_errors); }catch(e){ extra = '\nSQL errors present'; }
+                }
+                alert((resultado.message || "No se pudo guardar el pedido.") + extra);
+            }
+        });
+    }
+}).render('#paypal-button-container');
 </script>
 
 </body>

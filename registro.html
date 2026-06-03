@@ -69,6 +69,12 @@
                         <a href="login.html">Inicia sesión</a>
                     </div>
 
+                    <div class="text-center mt-3">
+                        <a href="index.html" class="btn btn-outline-primary">
+                            Página Principal
+                        </a>
+                    </div>
+
                 </div>
 
             </div>
@@ -98,31 +104,38 @@ async function(e)
         return;
     }
 
-    const formData =
-        new FormData(this);
+    try {
+        const formData =
+            new FormData(this);
 
-    const respuesta =
-        await fetch(
-            "api/registrar.php",
-            {
-                method:"POST",
-                body:formData
-            }
-        );
+        const respuesta =
+            await fetch(
+                "api/registrar.php",
+                {
+                    method:"POST",
+                    body:formData
+                }
+            );
 
-    const datos =
-        await respuesta.json();
+        const datos =
+            await respuesta.json();
 
-    if(datos.success)
-    {
-        alert("Registro exitoso");
+        if(datos.success)
+        {
+            alert("Registro exitoso");
 
-        window.location =
-            "login.html";
+            window.location =
+                "login.html";
+        }
+        else
+        {
+            alert(datos.message);
+        }
     }
-    else
+    catch(error)
     {
-        alert(datos.message);
+        alert('Error al conectar con el servidor.');
+        console.error(error);
     }
 });
 
