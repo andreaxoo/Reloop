@@ -177,3 +177,27 @@ h2,h4{
     color:#5f6f52;
     font-weight:700;
 }
+
+.card {
+    border-radius: 18px;
+}
+
+.form-control {
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.btn-success {
+    background-color: #5F6F52;
+    border-color: #5F6F52;
+}
+
+.btn-success:hover {
+    background-color: #A9B388;
+    border-color: #A9B388;
+}
+
+h2, h3, h4 {
+    color: #5F6F52;
+    font-weight: bold;
+}
