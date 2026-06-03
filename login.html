@@ -32,12 +32,12 @@
 
                         <div class="mb-3">
                             <label>Correo</label>
-                            <input type="email" class="form-control" required>
+                            <input type="email" name="correo" class="form-control" required>
                         </div>
 
                         <div class="mb-4">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control" required>
+                            <input type="password" name="password" class="form-control" required>
                         </div>
 
                         <button class="btn btn-success w-100">
@@ -60,6 +60,46 @@
     </div>
 
 </div>
+
+<script>
+
+document
+.getElementById("formLogin")
+.addEventListener(
+"submit",
+async function(e)
+{
+    e.preventDefault();
+
+    const formData =
+        new FormData(this);
+
+    const respuesta =
+        await fetch(
+            "api/login.php",
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+    const datos =
+        await respuesta.json();
+
+    if(datos.success)
+    {
+        window.location =
+            "mi-cuenta.php";
+    }
+    else
+    {
+        alert(
+            "Correo o contraseña incorrectos"
+        );
+    }
+});
+
+</script>
 
 </body>
 </html>

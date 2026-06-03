@@ -27,9 +27,7 @@
                     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                         width="120">
 
-                    <h4 class="mt-3">
-                        Andrea
-                    </h4>
+                    <h4 id="nombreUsuario"></h4>
 
                     <p class="text-muted">
                         Cliente Reloop
@@ -55,22 +53,22 @@
 
                         <div class="col-md-6 mb-3">
                             <label>Nombre</label>
-                            <input type="text" class="form-control">
+                            <input id="nombre" type="text" class="form-control">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Apellidos</label>
-                            <input type="text" class="form-control">
+                            <input id="apellidos" type="text" class="form-control">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Correo</label>
-                            <input type="email" class="form-control">
+                            <input id="correo" type="email" class="form-control">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Teléfono</label>
-                            <input type="text" class="form-control">
+                            <input id="telefono" type="text" class="form-control">
                         </div>
 
                     </div>
@@ -79,7 +77,7 @@
                         Guardar Cambios
                     </button>
 
-                    <button class="btn btn-outline-danger ms-2">
+                    <button id="btnLogout" class="btn btn-outline-danger ms-2">
                         Cerrar Sesión
                     </button>
 
@@ -134,6 +132,77 @@
     </div>
 
 </div>
+
+<script>
+
+async function cargarUsuario()
+{
+    const respuesta =
+        await fetch(
+            "api/obtenerUsuario.php"
+        );
+
+    const usuario =
+        await respuesta.json();
+
+    if(usuario.success === false)
+    {
+        window.location =
+            "login.html";
+
+        return;
+    }
+
+    document
+    .getElementById("nombreUsuario")
+    .textContent =
+        usuario.nombre;
+
+    document
+    .getElementById("nombre")
+    .value =
+        usuario.nombre;
+
+    document
+    .getElementById("apellidos")
+    .value =
+        usuario.apellidos;
+
+    document
+    .getElementById("correo")
+    .value =
+        usuario.correo;
+
+    document
+    .getElementById("telefono")
+    .value =
+        usuario.telefono;
+}
+
+cargarUsuario();
+
+document
+.getElementById("btnLogout")
+.addEventListener(
+"click",
+async function()
+{
+    const respuesta =
+        await fetch(
+            "api/logout.php"
+        );
+
+    const datos =
+        await respuesta.json();
+
+    if(datos.success)
+    {
+        window.location =
+            "login.html";
+    }
+});
+
+</script>
 
 </body>
 </html>

@@ -79,5 +79,54 @@
 
 </div>
 
+<script>
+
+document
+.getElementById("formRegistro")
+.addEventListener(
+"submit",
+async function(e)
+{
+    e.preventDefault();
+
+    const password = this.querySelector('input[name="password"]').value;
+    const confirmar = this.querySelector('input[name="confirmar"]').value;
+
+    if (password !== confirmar)
+    {
+        alert('Las contraseñas no coinciden');
+        return;
+    }
+
+    const formData =
+        new FormData(this);
+
+    const respuesta =
+        await fetch(
+            "api/registrar.php",
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+    const datos =
+        await respuesta.json();
+
+    if(datos.success)
+    {
+        alert("Registro exitoso");
+
+        window.location =
+            "login.html";
+    }
+    else
+    {
+        alert(datos.message);
+    }
+});
+
+</script>
+
 </body>
 </html>
