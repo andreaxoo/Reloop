@@ -1,6 +1,7 @@
 [
   {
     "Id": 11,
+    "SKU": "PRO001",
     "Nombre": "Top Corsé Asimétrico 'Industrial Denim'",
     "Material": "Mezclilla y herrajes metálicos",
     "Porcentaje": "40% OFF",
@@ -11,6 +12,7 @@
   },
   {
     "Id": 12,
+    "SKU": "PRO002",
     "Nombre": "Corbata Reloop 'Lace & Denim'",
     "Material": "Mezclilla y encaje",
     "Porcentaje": "50% OFF",
@@ -21,6 +23,7 @@
   },
   {
     "Id": 13,
+    "SKU": "PRO003",
     "Nombre": "Falda Grunge",
     "Material": "Mezclilla y algodón",
     "Porcentaje": "35% OFF",
@@ -31,6 +34,7 @@
   },
   {
     "Id": 14,
+    "SKU": "PRO004",
     "Nombre": "Portatermos de Mezclilla",
     "Material": "Mezclilla ",
     "Porcentaje": "30% OFF",
@@ -41,6 +45,7 @@
   },
   {
     "Id": 15,
+    "SKU": "PRO005",
     "Nombre": "Gorra Denim",
     "Material": "Mezclilla",
     "Porcentaje": "25% OFF",
@@ -51,6 +56,7 @@
   },
   {
     "Id": 16,
+    "SKU": "PRO006",
     "Nombre": "Funda de mezclilla para encendedor",
     "Material": "Mezclilla",
     "Porcentaje": "20% OFF",
@@ -61,6 +67,7 @@
   },
   {
     "Id": 17,
+    "SKU": "PRO007",
     "Nombre": "Porta celular de corbata",
     "Material": "Corbata",
     "Porcentaje": "30% OFF",

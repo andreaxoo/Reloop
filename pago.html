@@ -90,42 +90,42 @@
 
                         <div class="col-md-6 mb-3">
                             <label>Nombre*</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="nombre">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Apellido*</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="apellido">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Correo*</label>
-                            <input type="email" class="form-control">
+                            <input type="email" class="form-control" id="correo">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Teléfono*</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="telefono">
                         </div>
 
                         <div class="col-12 mb-3">
                             <label>Calle y Número</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="calle">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Colonia</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="colonia">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Municipio</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="municipio">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Estado</label>
-                            <select class="form-select">
+                            <select class="form-select" id="estado">
                                 <option>Seleccionar estado</option>
                                 <option>Aguascalientes</option>
                                 <option>Baja California</option>
@@ -137,7 +137,7 @@
 
                         <div class="col-md-6 mb-3">
                             <label>Código Postal</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="cp">
                         </div>
 
                     </div>
@@ -169,8 +169,9 @@
                     </div>
 
                     <button
+                        id="btnConfirmar"
                         class="btn btn-reloop w-100 mb-3">
-                        Revisar Pedido
+                        Confirmar Pedido
                     </button>
 
                     <div id="paypal-button-container"></div>
@@ -267,6 +268,55 @@ paypal.Buttons({
     }
 
 }).render('#paypal-button-container');
+
+</script>
+
+<script>
+
+document.getElementById("btnConfirmar")
+.addEventListener("click", async function(){
+
+    const carrito =
+        JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const datosCliente = {
+
+        nombre: document.getElementById("nombre").value,
+        apellido: document.getElementById("apellido").value,
+        correo: document.getElementById("correo").value,
+        telefono: document.getElementById("telefono").value,
+
+        calle: document.getElementById("calle").value,
+        colonia: document.getElementById("colonia").value,
+        municipio: document.getElementById("municipio").value,
+        estado: document.getElementById("estado").value,
+        cp: document.getElementById("cp").value
+    };
+
+    const pedido = {
+        cliente: datosCliente,
+        carrito: carrito
+    };
+
+    const respuesta = await fetch(
+        "./api/guardarPedido.php",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(pedido)
+        }
+    );
+
+    const resultado =
+        await respuesta.json();
+
+    console.log(resultado);
+
+    alert("Datos enviados correctamente");
+
+});
 
 </script>
 

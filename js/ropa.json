@@ -1,6 +1,7 @@
 [
   {
     "Id": 1,
+    "SKU": "ROP001",
     "Nombre": "Falda de Popelina y Denim",
     "Categoria": "Ropa",
     "Material": "Popelina y Mezclilla",
@@ -10,6 +11,7 @@
   },
   {
     "Id": 2,
+    "SKU": "ROP002",  
     "Nombre": "Hoodie Flores Upcycled",
     "Categoria": "Ropa",
     "Material": "Algodón y parches varios",
@@ -19,6 +21,7 @@
   },
   {
     "Id": 3,
+    "SKU": "ROP003",
     "Nombre": "Jeans Corbatas Distressed",
     "Categoria": "Ropa",
     "Material": "Mezclilla y Seda/Poliéster",
@@ -28,6 +31,7 @@
   },
   {
     "Id": 4,
+    "SKU": "ROP004",
     "Nombre": "Jeans Tricolor Reloop",
     "Categoria": "Ropa",
     "Material": "Mezclilla en tonos",
@@ -37,6 +41,7 @@
   },
   {
     "Id": 5,
+    "SKU": "ROP005",
     "Nombre": "Traje Mezclilla Patchwork",
     "Categoria": "Ropa",
     "Material": "Mezclilla reciclada",
@@ -46,6 +51,7 @@
   },
   {
     "Id": 6,
+    "SKU": "ROP006",
     "Nombre": "Vestido Corbatas Vintage",
     "Categoria": "Ropa",
     "Material": "Corbatas recicladas",
@@ -55,6 +61,7 @@
   },
   {
     "Id":7,
+    "SKU": "ROP007",
     "Nombre": "Top Halter Corbata",
     "Categoria": "Ropa",
     "Material": "Corbatas recicladas",
@@ -64,6 +71,7 @@
   },
   {
     "Id":8,
+    "SKU": "ROP008",
     "Nombre": "Falda de cierres",
     "Categoria": "Ropa",    
     "Material": "Cierres reciclados",
@@ -73,6 +81,7 @@
   },
   {
     "Id":9,
+    "SKU": "ROP009",
     "Nombre": "Camisa con jaretas laterales",
     "Categoria": "Ropa",
     "Material": "Algodón reciclado",
@@ -82,6 +91,7 @@
   },
   {
     "Id":10,
+    "SKU": "ROP010",
     "Nombre": "Corsé y torera estilo chino",
     "Categoria": "Ropa",
     "Material": "Poliester reciclado y algodón",
@@ -91,6 +101,7 @@
   },
   {
     "Id": 14,
+    "SKU": "ROP011",
     "Nombre": "Imitación de camisa Vivienne Westwood",
     "Categoria": "Ropa",
     "Material": "Algodón",
