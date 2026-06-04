@@ -228,6 +228,24 @@ if(!sqlsrv_commit($conn)){
     exit;
 }
 
+require_once(__DIR__ . "/generarFacturaPDF.php");
+require_once(__DIR__ . "/enviarFactura.php");
+
+$rutaPDF = GenerarFacturaPDF(
+    $conn,
+    $idPedido
+);
+
+if($rutaPDF)
+{
+    EnviarFactura(
+        $cliente["correo"],
+        $cliente["nombre"],
+        $rutaPDF,
+        $idPedido
+    );
+}
+
 echo json_encode([
     "success" => true,
     "id_pedido" => $idPedido,

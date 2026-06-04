@@ -336,7 +336,37 @@ paypal.Buttons({
     },
     onApprove(data, actions) {
         return actions.order.capture().then(async function() {
-            const resultado = await enviarPedido();
+        try {
+
+                const resultado = await enviarPedido();
+
+                console.log(resultado);
+
+                if(resultado.success){
+
+                    localStorage.removeItem("carrito");
+
+                    alert("Pago realizado correctamente");
+
+                    window.location.href = "mi-cuenta.php";
+
+                }else{
+
+                    alert(
+                        "Error: " +
+                        JSON.stringify(resultado)
+                    );
+                }
+
+            }catch(error){
+
+                console.error(error);
+
+                alert(
+                    "Error JS: " +
+                    error.message
+                );
+            }
 
             if(resultado.success) {
                 localStorage.removeItem("carrito");
