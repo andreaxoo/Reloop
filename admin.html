@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Reloop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background: #f4f7f9;
+        }
+        .admin-header {
+            background: #2a4f2b;
+            color: white;
+        }
+        .card-admin {
+            border: 1px solid rgba(0,0,0,.08);
+        }
+        .form-section {
+            background: #fff;
+            border-radius: .75rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,.05);
+        }
+        .table-container {
+            max-height: 520px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg admin-header px-4 py-3 mb-4">
+        <a class="navbar-brand text-white" href="#">
+            <i class="fa-solid fa-gears me-2"></i>Administrador Reloop
+        </a>
+        <div class="ms-auto text-end text-white">
+            <div>CRUD Productos y Clientes</div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <div id="adminFeedback" class="alert d-none" role="alert"></div>
+
+        <div class="row gy-4">
+            <div class="col-12">
+                <div class="card card-admin p-4 form-section">
+                    <h3 class="mb-3">Gestión de Productos</h3>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="prodSku" class="form-label">SKU</label>
+                            <input id="prodSku" class="form-control" type="text" placeholder="ROP001">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodNombre" class="form-label">Nombre</label>
+                            <input id="prodNombre" class="form-control" type="text" placeholder="Falda de Popelina">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodCategoria" class="form-label">Categoría</label>
+                            <select id="prodCategoria" class="form-select">
+                                <option value="Ropa">Ropa</option>
+                                <option value="Accesorios">Accesorios</option>
+                                <option value="Promociones">Promociones</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodMaterial" class="form-label">Material</label>
+                            <input id="prodMaterial" class="form-control" type="text" placeholder="Algodón y Mezclilla">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodPrecio" class="form-label">Precio</label>
+                            <input id="prodPrecio" class="form-control" type="number" min="0" step="0.01" placeholder="250.00">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodPrecioAnterior" class="form-label">Precio anterior</label>
+                            <input id="prodPrecioAnterior" class="form-control" type="number" min="0" step="0.01" placeholder="400.00">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodStock" class="form-label">Stock</label>
+                            <input id="prodStock" class="form-control" type="number" min="0" step="1" placeholder="10">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodImagen" class="form-label">Imagen</label>
+                            <input id="prodImagen" class="form-control" type="text" placeholder="faldaPopelina.webp">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="prodActivo" class="form-label">Activo</label>
+                            <select id="prodActivo" class="form-select">
+                                <option value="1">Sí</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="prodDescripcion" class="form-label">Descripción</label>
+                            <textarea id="prodDescripcion" class="form-control" rows="3" placeholder="Descripción del producto"></textarea>
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button id="prodSaveButton" class="btn btn-success">Guardar producto</button>
+                            <button id="prodClearButton" class="btn btn-outline-secondary">Limpiar formulario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card card-admin p-4 form-section">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="mb-0">Listado de Productos</h3>
+                        <span id="productosCount" class="badge bg-primary">0</span>
+                    </div>
+                    <div class="table-responsive table-container">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>SKU</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Activo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productosTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card card-admin p-4 form-section">
+                    <h3 class="mb-3">Gestión de Clientes</h3>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="cliNombre" class="form-label">Nombre</label>
+                            <input id="cliNombre" class="form-control" type="text" placeholder="Nombre">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cliApellidos" class="form-label">Apellidos</label>
+                            <input id="cliApellidos" class="form-control" type="text" placeholder="Apellidos">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cliCorreo" class="form-label">Correo</label>
+                            <input id="cliCorreo" class="form-control" type="email" placeholder="correo@ejemplo.com">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cliTelefono" class="form-label">Teléfono</label>
+                            <input id="cliTelefono" class="form-control" type="text" placeholder="55 1234 5678">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cliPassword" class="form-label">Contraseña</label>
+                            <input id="cliPassword" class="form-control" type="password" placeholder="Dejar vacío para no cambiar">
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button id="cliSaveButton" class="btn btn-success">Guardar cliente</button>
+                            <button id="cliClearButton" class="btn btn-outline-secondary">Limpiar formulario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card card-admin p-4 form-section">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="mb-0">Listado de Clientes</h3>
+                        <span id="clientesCount" class="badge bg-primary">0</span>
+                    </div>
+                    <div class="table-responsive table-container">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editingProductId = null;
+        let editingClientId = null;
+
+        const feedback = document.getElementById('adminFeedback');
+
+        function mostrarFeedback(mensaje, tipo = 'success') {
+            feedback.className = `alert alert-${tipo}`;
+            feedback.textContent = mensaje;
+            feedback.classList.remove('d-none');
+            setTimeout(() => feedback.classList.add('d-none'), 5000);
+        }
+
+        async function fetchJSON(url, options = {}) {
+            const response = await fetch(url, options);
+            return response.json();
+        }
+
+        async function cargarProductos() {
+            const datos = await fetchJSON('./api/adminProductos.php');
+            if (!Array.isArray(datos)) {
+                mostrarFeedback('Error al cargar productos.', 'danger');
+                return;
+            }
+            const tbody = document.getElementById('productosTableBody');
+            tbody.innerHTML = '';
+            datos.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.Id}</td>
+                        <td>${item.SKU}</td>
+                        <td>${item.Nombre}</td>
+                        <td>${item.Categoria}</td>
+                        <td>$${item.Precio.toFixed(2)}</td>
+                        <td>${item.stock}</td>
+                        <td>${item.activo ? 'Sí' : 'No'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary me-2" onclick="editarProducto(${item.Id})">Editar</button>
+                            <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${item.Id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('productosCount').textContent = datos.length;
+        }
+
+        async function cargarClientes() {
+            const datos = await fetchJSON('./api/adminClientes.php');
+            if (!Array.isArray(datos)) {
+                mostrarFeedback('Error al cargar clientes.', 'danger');
+                return;
+            }
+            const tbody = document.getElementById('clientesTableBody');
+            tbody.innerHTML = '';
+            datos.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.Id}</td>
+                        <td>${item.Nombre}</td>
+                        <td>${item.Apellidos}</td>
+                        <td>${item.Correo}</td>
+                        <td>${item.Telefono || ''}</td>
+                        <td>${item.Fecha_Registro || ''}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary me-2" onclick="editarCliente(${item.Id})">Editar</button>
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCliente(${item.Id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('clientesCount').textContent = datos.length;
+        }
+
+        function limpiarFormularioProducto() {
+            editingProductId = null;
+            document.getElementById('prodSku').value = '';
+            document.getElementById('prodNombre').value = '';
+            document.getElementById('prodCategoria').value = 'Ropa';
+            document.getElementById('prodMaterial').value = '';
+            document.getElementById('prodPrecio').value = '';
+            document.getElementById('prodPrecioAnterior').value = '';
+            document.getElementById('prodStock').value = '';
+            document.getElementById('prodImagen').value = '';
+            document.getElementById('prodActivo').value = '1';
+            document.getElementById('prodDescripcion').value = '';
+            document.getElementById('prodSaveButton').textContent = 'Guardar producto';
+        }
+
+        function limpiarFormularioCliente() {
+            editingClientId = null;
+            document.getElementById('cliNombre').value = '';
+            document.getElementById('cliApellidos').value = '';
+            document.getElementById('cliCorreo').value = '';
+            document.getElementById('cliTelefono').value = '';
+            document.getElementById('cliPassword').value = '';
+            document.getElementById('cliSaveButton').textContent = 'Guardar cliente';
+        }
+
+        async function guardarProducto() {
+            const payload = {
+                action: editingProductId ? 'update' : 'create',
+                sku: document.getElementById('prodSku').value.trim(),
+                nombre_articulo: document.getElementById('prodNombre').value.trim(),
+                categoria: document.getElementById('prodCategoria').value,
+                material: document.getElementById('prodMaterial').value.trim(),
+                precio: parseFloat(document.getElementById('prodPrecio').value) || 0,
+                precio_anterior: document.getElementById('prodPrecioAnterior').value ? parseFloat(document.getElementById('prodPrecioAnterior').value) : null,
+                stock: parseInt(document.getElementById('prodStock').value, 10) || 0,
+                imagen: document.getElementById('prodImagen').value.trim(),
+                descripcion: document.getElementById('prodDescripcion').value.trim(),
+                activo: parseInt(document.getElementById('prodActivo').value, 10)
+            };
+
+            if (editingProductId) {
+                payload.id_producto = editingProductId;
+            }
+
+            if (!payload.sku || !payload.nombre_articulo || !payload.categoria) {
+                mostrarFeedback('SKU, nombre y categoría son obligatorios.', 'warning');
+                return;
+            }
+
+            const respuesta = await fetch('./api/adminProductos.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await respuesta.json();
+
+            if (data.success) {
+                mostrarFeedback(data.message || 'Producto guardado correctamente.');
+                limpiarFormularioProducto();
+                cargarProductos();
+            } else {
+                mostrarFeedback(data.message || 'No se pudo guardar el producto.', 'danger');
+            }
+        }
+
+        async function guardarCliente() {
+            const payload = {
+                action: editingClientId ? 'update' : 'create',
+                nombre: document.getElementById('cliNombre').value.trim(),
+                apellidos: document.getElementById('cliApellidos').value.trim(),
+                correo: document.getElementById('cliCorreo').value.trim(),
+                telefono: document.getElementById('cliTelefono').value.trim(),
+                password: document.getElementById('cliPassword').value
+            };
+
+            if (editingClientId) {
+                payload.id_cliente = editingClientId;
+            }
+
+            if (!payload.nombre || !payload.apellidos || !payload.correo) {
+                mostrarFeedback('Nombre, apellidos y correo son obligatorios.', 'warning');
+                return;
+            }
+
+            if (!editingClientId && !payload.password) {
+                mostrarFeedback('Contraseña obligatoria para nuevo cliente.', 'warning');
+                return;
+            }
+
+            const respuesta = await fetch('./api/adminClientes.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await respuesta.json();
+
+            if (data.success) {
+                mostrarFeedback(data.message || 'Cliente guardado correctamente.');
+                limpiarFormularioCliente();
+                cargarClientes();
+            } else {
+                mostrarFeedback(data.message || 'No se pudo guardar el cliente.', 'danger');
+            }
+        }
+
+        function editarProducto(id) {
+            fetch(`./api/adminProductos.php?id=${id}`)
+                .then(res => res.json())
+                .then(item => {
+                    if (!item || !item.Id) {
+                        mostrarFeedback('No se encontró el producto seleccionado.', 'danger');
+                        return;
+                    }
+                    editingProductId = item.Id;
+                    document.getElementById('prodSku').value = item.SKU;
+                    document.getElementById('prodNombre').value = item.Nombre;
+                    document.getElementById('prodCategoria').value = item.Categoria;
+                    document.getElementById('prodMaterial').value = item.Material || '';
+                    document.getElementById('prodPrecio').value = item.Precio;
+                    document.getElementById('prodPrecioAnterior').value = item.Precio_Anterior || '';
+                    document.getElementById('prodStock').value = item.stock;
+                    document.getElementById('prodImagen').value = item.Imagen || '';
+                    document.getElementById('prodDescripcion').value = item.Descripcion || '';
+                    document.getElementById('prodActivo').value = item.activo ? '1' : '0';
+                    document.getElementById('prodSaveButton').textContent = 'Actualizar producto';
+                });
+        }
+
+        function editarCliente(id) {
+            fetch(`./api/adminClientes.php?id=${id}`)
+                .then(res => res.json())
+                .then(item => {
+                    if (!item || !item.Id) {
+                        mostrarFeedback('No se encontró el cliente seleccionado.', 'danger');
+                        return;
+                    }
+                    editingClientId = item.Id;
+                    document.getElementById('cliNombre').value = item.Nombre;
+                    document.getElementById('cliApellidos').value = item.Apellidos;
+                    document.getElementById('cliCorreo').value = item.Correo;
+                    document.getElementById('cliTelefono').value = item.Telefono || '';
+                    document.getElementById('cliPassword').value = '';
+                    document.getElementById('cliSaveButton').textContent = 'Actualizar cliente';
+                });
+        }
+
+        async function eliminarProducto(id) {
+            if (!confirm('¿Eliminar este producto?')) return;
+            const respuesta = await fetch('./api/adminProductos.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({action: 'delete', id_producto: id})
+            });
+            const data = await respuesta.json();
+            if (data.success) {
+                mostrarFeedback(data.message || 'Producto eliminado.');
+                cargarProductos();
+            } else {
+                mostrarFeedback(data.message || 'No se pudo eliminar el producto.', 'danger');
+            }
+        }
+
+        async function eliminarCliente(id) {
+            if (!confirm('¿Eliminar este cliente?')) return;
+            const respuesta = await fetch('./api/adminClientes.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({action: 'delete', id_cliente: id})
+            });
+            const data = await respuesta.json();
+            if (data.success) {
+                mostrarFeedback(data.message || 'Cliente eliminado.');
+                cargarClientes();
+            } else {
+                let message = data.message || 'No se pudo eliminar el cliente.';
+                if (data.errors) {
+                    message += ' ' + JSON.stringify(data.errors);
+                }
+                mostrarFeedback(message, 'danger');
+            }
+        }
+
+        document.getElementById('prodSaveButton').addEventListener('click', guardarProducto);
+        document.getElementById('prodClearButton').addEventListener('click', limpiarFormularioProducto);
+        document.getElementById('cliSaveButton').addEventListener('click', guardarCliente);
+        document.getElementById('cliClearButton').addEventListener('click', limpiarFormularioCliente);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            cargarProductos();
+            cargarClientes();
+        });
+    </script>
+</body>
+</html>
