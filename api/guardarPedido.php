@@ -215,6 +215,34 @@ foreach($carrito as $producto)
             ]);
             exit;
     }
+
+    // Decrementar stock del producto
+    $cantidad = $producto["cantidad"];
+    $sqlUpdateStock = "
+        UPDATE Productos
+        SET stock = stock - ?
+        WHERE id_producto = ?
+    ";
+
+    $paramsUpdateStock = [$cantidad, $idProducto];
+
+    $stmtUpdateStock = sqlsrv_query(
+        $conn,
+        $sqlUpdateStock,
+        $paramsUpdateStock
+    );
+
+    if(!$stmtUpdateStock)
+    {
+        sqlsrv_rollback($conn);
+        echo json_encode([
+            "success" => false,
+            "message" => "Error al actualizar stock del producto",
+            "db_errors" => sqlsrv_errors(),
+            "item" => $producto
+        ]);
+        exit;
+    }
 }
 
 // Commit transaction

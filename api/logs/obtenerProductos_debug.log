@@ -1,0 +1,48 @@
+[2026-06-03 19:04:39] Error en obtenerProductos
+Tipo: accesorios
+SQL: SELECT id_producto, nombre, descripcion, precio, stock, sku, imagen, material, categoria, precio_anterior, porcentaje_descuento FROM Productos ORDER BY id_producto ASC
+Errors: array (
+  0 => 
+  array (
+    0 => '42S22',
+    'SQLSTATE' => '42S22',
+    1 => 207,
+    'code' => 207,
+    2 => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'nombre\'.',
+    'message' => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'nombre\'.',
+  ),
+  1 => 
+  array (
+    0 => '42S22',
+    'SQLSTATE' => '42S22',
+    1 => 207,
+    'code' => 207,
+    2 => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'porcentaje_descuento\'.',
+    'message' => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'porcentaje_descuento\'.',
+  ),
+)
+
+[2026-06-03 19:04:42] Error en obtenerProductos
+Tipo: ropa
+SQL: SELECT id_producto, nombre, descripcion, precio, stock, sku, imagen, material, categoria, precio_anterior, porcentaje_descuento FROM Productos ORDER BY id_producto ASC
+Errors: array (
+  0 => 
+  array (
+    0 => '42S22',
+    'SQLSTATE' => '42S22',
+    1 => 207,
+    'code' => 207,
+    2 => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'nombre\'.',
+    'message' => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'nombre\'.',
+  ),
+  1 => 
+  array (
+    0 => '42S22',
+    'SQLSTATE' => '42S22',
+    1 => 207,
+    'code' => 207,
+    2 => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'porcentaje_descuento\'.',
+    'message' => '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name \'porcentaje_descuento\'.',
+  ),
+)
+

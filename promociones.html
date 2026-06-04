@@ -335,15 +335,29 @@ async function ObtenerDatos() {
     try {
 
         const respuesta =
-            await fetch('./js/promociones.json');
+            await fetch('./api/obtenerProductos.php?tipo=promociones');
 
-        return await respuesta.json();
+        const datos = await respuesta.json();
+        
+        // Si la respuesta es un error (tiene success: false), retornar array vacío
+        if (datos && typeof datos === 'object' && datos.success === false) {
+            console.error('Error del API:', datos.message);
+            return [];
+        }
+        
+        // Si es un array, devolverlo
+        if (Array.isArray(datos)) {
+            return datos;
+        }
+        
+        console.warn('Respuesta inesperada del API:', datos);
+        return [];
 
     } catch(error) {
 
         console.error(error);
 
-        alert('Error al obtener promociones');
+        return [];
     }
 }
 

@@ -150,23 +150,39 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        CargarDestacadosIndex('./js/ropa.json', 'ropa-destacada-index', 'ropa');
-        CargarDestacadosIndex('./js/accesorios.json', 'accesorios-destacados-index', 'accesorios');
+        CargarDestacadosIndex('ropa');
+        CargarDestacadosIndex('accesorios');
     });
 
-    async function CargarDestacadosIndex(rutaJson, idContenedor, tipoProducto) {
+    async function CargarDestacadosIndex(tipoProducto) {
         try {
-            const respuesta = await fetch(rutaJson);
-            const productos = await respuesta.json();
+            const respuesta = await fetch(`./api/obtenerProductos.php?tipo=${tipoProducto}`);
+            const datos = await respuesta.json();
+            
+            // Si hay error, salir
+            if (datos && typeof datos === 'object' && datos.success === false) {
+                console.error('Error del API:', datos.message);
+                return;
+            }
+            
+            // Si no es array, salir
+            if (!Array.isArray(datos)) {
+                console.error('Respuesta inválida del API');
+                return;
+            }
+            
+            const idContenedor = tipoProducto === 'ropa' ? 'ropa-destacada-index' : 'accesorios-destacados-index';
             const contenedor = document.getElementById(idContenedor);
+            
+            if (!contenedor) return;
             
             let template = '';
             
-            // Tomamos los primeros 3 productos del JSON con .slice(0, 3)
-            productos.slice(0, 3).forEach(item => {
+            // Tomamos los primeros 3 productos
+            datos.slice(0, 3).forEach(item => {
                 template += `
                     <div class="col-12 col-md-6 col-lg-4 mb-4">
-                        <a href="producto.html?id=${item.Id || item.id}&tipo=${tipoProducto}" class="text-decoration-none text-reset target-featured">
+                        <a href="producto.html?id=${item.Id}&tipo=${tipoProducto}" class="text-decoration-none text-reset target-featured">
                             <div class="card-box mb-2">
                                 <img src="img/${item.Imagen}" alt="${item.Nombre}" class="img-fluid">
                             </div>

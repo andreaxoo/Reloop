@@ -109,13 +109,25 @@
         }
 
         const id = parseInt(idStr);
-        let rutaJson = `./js/${tipo}.json`;
+        let rutaAPI = `./api/obtenerProductos.php?tipo=${tipo}`;
 
         try {
-            const respuesta = await fetch(rutaJson);
-            const productos = await respuesta.json();
+            const respuesta = await fetch(rutaAPI);
+            const datos = await respuesta.json();
             
-            const item = productos.find(p => (p.Id === id || p.id === id));
+            // Si la respuesta es un error (tiene success: false), mostrar error
+            if (datos && typeof datos === 'object' && datos.success === false) {
+                document.getElementById('detalle-producto-container').innerHTML = `<div class="alert alert-danger text-center">Error al cargar: ${datos.message}</div>`;
+                return;
+            }
+            
+            // Si no es un array, error
+            if (!Array.isArray(datos)) {
+                document.getElementById('detalle-producto-container').innerHTML = `<div class="alert alert-danger text-center">Formato de respuesta inválido.</div>`;
+                return;
+            }
+            
+            const item = datos.find(p => (p.Id === id || p.id === id));
 
             if (!item) {
                 document.getElementById('detalle-producto-container').innerHTML = `<div class="alert alert-warning text-center">Producto no encontrado.</div>`;
@@ -134,6 +146,17 @@
         const contenedor = document.getElementById('detalle-producto-container');
         
         const precioAnteriorHtml = item.Precio_Anterior ? `<span class="text-muted text-decoration-line-through fs-5 me-2">$${item.Precio_Anterior}</span>` : '';
+        
+        // Mostrar disponibilidad de stock
+        const stockDisponible = item.stock > 0;
+        const stockHtml = `
+            <div class="mb-3">
+                <small class="text-muted">Stock disponible: </small>
+                <span class="${stockDisponible ? 'text-success fw-bold' : 'text-danger fw-bold'}">
+                    ${stockDisponible ? item.stock + ' unidades' : 'Agotado'}
+                </span>
+            </div>
+        `;
 
         // Actualizamos el HTML inyectado para meter la imagen dentro de su nuevo contenedor cuadrado protegido
         contenedor.innerHTML = `
@@ -148,6 +171,7 @@
                 <div class="mb-3">
                     <span class="text-success fs-3 fw-bold">$${item.Precio}</span>
                 </div>
+                ${stockHtml}
                 <p class="text-secondary fs-5 mb-4">${item.Descripcion}</p>
                 
                 <div class="d-grid gap-2">
